@@ -7,7 +7,7 @@ export function Input ({...rest}: Props) {
   return (
     <GSInput 
       bg='$gray700' 
-      h="$14" 
+      h="$12" 
       px="$4" 
       borderWidth="$0" 
       borderRadius="$md"

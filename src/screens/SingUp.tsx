@@ -5,14 +5,22 @@ import backgroundImage from '@assets/background.png';
 import Logo from "@assets/logo.svg";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
+import { useNavigation } from "@react-navigation/native";
+import { AuthNavigatorRoutesProps } from "@routes/auth.routes";
 
 export function SingUp() {
+  const navigator = useNavigation<AuthNavigatorRoutesProps>();
+
+  const handleSingIn = () => {
+    navigator.navigate('signIn');
+  };
+
   return (
     <ScrollView 
       contentContainerStyle={{ flexGrow: 1}}
       showsVerticalScrollIndicator={false}
     >
-      <VStack flex={1} bg="$gray700">
+      <VStack flex={1} >
         <Image
           w="$full"
           h={624}
@@ -27,7 +35,7 @@ export function SingUp() {
             <Logo />
 
             <Text color="$gray100" fontSize="$sm">
-              Treine sua mente e seu corpo.
+              Abasteça conosco.
             </Text>
           </Center>
 
@@ -50,7 +58,12 @@ export function SingUp() {
             <Button  title="Criar conta"/>
           </Center>
 
-            <Button title="Voltar para o login" variant="outline" mt="$12" />
+            <Button 
+              title="Voltar para o login" 
+              variant="outline" 
+              mt="$12"
+              onPress={handleSingIn}
+            />
         </VStack>
       </VStack>
     </ScrollView>
