@@ -53,7 +53,7 @@ export function Profile() {
             mt="$12"
             mb="$1"
             > 
-            ALterar Senha 
+            Alterar Senha 
           </Heading>
 
           <Center
