@@ -2,7 +2,7 @@
 import { SelectDragIndicatorWrapper, SelectIcon, SelectInput, SelectTrigger } from "@gluestack-ui/themed";
 import { SelectDragIndicator } from "@gluestack-ui/themed";
 import { ChevronDownIcon } from "@gluestack-ui/themed";
-import {Select as GSSelect, SelectBackdrop, SelectContent, SelectItem, SelectPortal, } from "@gluestack-ui/themed"
+import {Select as GSSelect, SelectBackdrop, SelectContent, SelectItem, SelectPortal } from "@gluestack-ui/themed"
 import { ComponentProps } from "react"
 
 type Props = Omit<ComponentProps<typeof SelectPortal>, 'children'> & {
@@ -15,28 +15,25 @@ type Props = Omit<ComponentProps<typeof SelectPortal>, 'children'> & {
 };
 
 export function Select({items, placeholder,  ...rest}: Props) {
-  console.log("placeholder: " + placeholder);
   return (
-    <GSSelect>
-      <SelectTrigger variant="rounded" size="md">
-        <SelectInput placeholder={placeholder} />
-        <SelectIcon as={ChevronDownIcon} />
+    <GSSelect w="$48" mt="$8" >
+      <SelectTrigger variant="outline" size="md">
+        <SelectInput placeholder={placeholder} color="$gray100"/>
+        <SelectIcon as={ChevronDownIcon} mr="$4" />
       </SelectTrigger>
-
-      <SelectPortal >
+      <SelectPortal {...rest}>
         <SelectBackdrop />
-          <SelectContent>
-            <SelectDragIndicatorWrapper>
+        <SelectContent>
+          <SelectDragIndicatorWrapper>
             <SelectDragIndicator />
           </SelectDragIndicatorWrapper>
-          {items.map((item: any, index: number) => {
-            <SelectItem 
+          {items.map((item, index) =>(
+            <SelectItem
               key={index}
-              label={item.label}
-              value={item.value}
-              isDisabled={item.isDisabled ?? false}
+              label={item.label} 
+              value={item.value} 
             />
-          })}
+          ))}
         </SelectContent>
       </SelectPortal>
     </GSSelect>

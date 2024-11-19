@@ -1,3 +1,4 @@
+import { Button } from "@components/Button";
 import { HomeHeader } from "@components/HomeHeader";
 import { Input } from "@components/Input";
 import { Select } from "@components/Select";
@@ -36,7 +37,6 @@ function calculateTankVolume({heightFuel, diameter, length}: TankProps){
 }
 
 function calculateHeightPerVolume(volume: number, diameter: number, height: number): number {
-  const ray = diameter / 2;
   let estimateHeight = 0;
   let calcVolume = 0;
 
@@ -65,39 +65,67 @@ export function Home() {
   }
 
   function handleCalculate() {
+    if (parseFloat(actualHeight)) {
+      handleUpdateActualHeight(''); // limpando a caixa de texto
+    }
     const actualHeightCm = parseFloat(actualHeight);
     const quantityL = parseFloat(quantitySupplied)
     const {diameter, height} = tanks[tankType]
 
     const actualVolume = calculateTankVolume({heightFuel: actualHeightCm, diameter, length: height});
     const finalVolume = actualVolume + quantityL;
-
+    
     const estimatedHeight = calculateHeightPerVolume(finalVolume, diameter, height);
 
-    setFinalQuantity(finalVolume)
-    setFinalHeight(estimatedHeight)
-  } 
+    setFinalQuantity(parseFloat(finalVolume.toFixed(2)))
+    setFinalHeight(parseFloat(estimatedHeight.toFixed(2)))
+  }
+
+  function handleUpdateActualHeight(value: string) {
+    setActualHeight(value.trim());
+  }
+
+  function handleUpdateQuantitySupplied(value: string) {
+    setQuantitySupplied(value.trim());
+  }
 
   return (
     <VStack flex={1}>
       <HomeHeader />
 
-      <Center w="$full" mt="$8">
+      <Center w="$full" mt="$8" px="$4">
         <Heading color="$gray200"> Abastecimento de Tanque </Heading>
 
         <Select
           placeholder="Selecione o tanque"
-          items={tankTypes} 
+          items={tankTypes}
         />
 
-        <Text color="$gray100">Altura inicial</Text>
-        <Input 
-          placeholder="Altura inicial" 
-        />
+        <VStack w="$full" m="$4"  gap="$2">
+          <Input 
+            placeholder="Altura inicial em centímetros"
+            onChangeText={handleUpdateActualHeight}
+          />
 
-        <Input 
-          placeholder="Quantidade inicial" 
-        />
+          <Input 
+            placeholder="Quantidade a ser abastecido em litros"
+            onChangeText={handleUpdateQuantitySupplied}
+          />
+        </VStack>
+
+        <Button title="Calcular" onPress={handleCalculate}/>
+
+        <HStack w="$full" gap="$2" px="$4" mt="$8" >
+          <VStack alignItems="center">
+            <Text color="$gray100">Altura final estimada</Text>
+            <Heading color="$green700">{finalHeight} cm</Heading>
+          </VStack>
+
+          <VStack alignItems="center">
+            <Text color="$gray100">Qantidade final estimada</Text>
+            <Heading color="$green700">{finalQuantity} L</Heading>
+          </VStack>
+        </HStack>
       </Center>
     </VStack>
   )
